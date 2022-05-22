@@ -1,3 +1,8 @@
 from django.db import models
 
-# Create your models here.
+from apps.service.models import UUIDModel
+
+
+class UserProfile(UUIDModel):
+    telegram_id = models.CharField(max_length=255)
+    username = models.CharField(max_length=255)
