@@ -1,4 +1,4 @@
-# the-property
+# Telegram integration for Django
 
 # Getting Started
 
