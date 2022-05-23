@@ -1,6 +1,6 @@
 # the-property
 
-#For run project
+# Getting Started
 
 - python3.10 -m venv .venv
 - source .venv/bin/activate
