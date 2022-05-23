@@ -1,7 +1,9 @@
 import logging
 
 from aiogram import Bot, Dispatcher, executor, types
+from asgiref.sync import sync_to_async
 
+from apps.userprofile.models import UserProfile
 from theproperty import settings
 
 API_TOKEN = settings.TELEGRAM_BOT_TOKEN
@@ -14,11 +16,17 @@ bot = Bot(token=API_TOKEN)
 dp = Dispatcher(bot)
 
 
-@dp.message_handler(commands=['start', 'help'])
+@dp.message_handler(commands=['start'])
 async def send_welcome(message: types.Message):
     """
     This handler will be called when user sends `/start` or `/help` command
     """
+
+    userprofile, _ = await sync_to_async(UserProfile.objects.get_or_create)(
+        telegram_id=message.from_user.id,
+        username=message.from_user.username
+    )
+
     await message.reply("Hi!\nI'm EchoBot!\nPowered by aiogram.")
 
 
@@ -42,5 +50,4 @@ async def cats(message: types.Message):
 async def echo(message: types.Message):
     # old style:
     # await bot.send_message(message.chat.id, message.text)
-
     await message.reply(message.text)
